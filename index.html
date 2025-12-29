@@ -49,7 +49,7 @@
 
         function genMsg(status) {
             if (!lat) { alert("請先更新位置！"); return; }
-            let time = new Date().toLocaleString('zh-TW', {hour12:false, month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
+let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
             
             // ✅ 修正重點：改回最標準的 Google Maps 網址，並且確認使用了 $ 符號
             let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
