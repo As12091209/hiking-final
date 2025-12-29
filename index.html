@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h1>⛰️ 大小霸回報器 (修正版)</h1>
+    <h1>⛰️ 大小霸回報器 (最終版)</h1>
     <div class="card">
         <button class="btn-update" onclick="getGPS()">📍 1. 更新位置</button>
         <div id="gpsDisplay" style="margin-top:10px; color:#aaa;">等待定位...</div>
@@ -50,11 +50,10 @@
         function genMsg(status) {
             if (!lat) { alert("請先更新位置！"); return; }
             
-            // 這一行是產生時間（之前不小心被刪掉的）
+            // 這一行之前被不小心刪掉了，現在補回來
             let time = new Date().toLocaleString('zh-TW', {hour12:false, month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
             
-            // ✅ 修正重點：這裡使用的是 `反引號` (鍵盤左上角 Esc 下面那顆)，不是單引號 '
-            // 這樣 ${lat} 才會變色，才能正確抓到數字
+            // ✅ 重點：這裡用的是反引號 ` (Esc下面那顆)，不是單引號 '
             let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
             
             let msg = `【${status}】\n時間：${time}\n位置：${lat}, ${lon}\n地圖：${mapLink}`;
@@ -65,3 +64,6 @@
             document.execCommand("copy");
             alert("已複製！");
         }
+    </script>
+</body>
+</html>
