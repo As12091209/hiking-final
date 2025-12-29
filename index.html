@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h1>⛰️ 大小霸回報器 (最終版)</h1>
+    <h1>⛰️ 大小霸回報器 (修正版)</h1>
     <div class="card">
         <button class="btn-update" onclick="getGPS()">📍 1. 更新位置</button>
         <div id="gpsDisplay" style="margin-top:10px; color:#aaa;">等待定位...</div>
@@ -51,7 +51,7 @@
             if (!lat) { alert("請先更新位置！"); return; }
             let time = new Date().toLocaleString('zh-TW', {hour12:false, month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
             
-            // --- 這裡修正了：把 9 改成了 $，並使用官方網址 ---
+            // ✅ 修正重點：改回最標準的 Google Maps 網址，並且確認使用了 $ 符號
             let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
             
             let msg = `【${status}】\n時間：${time}\n位置：${lat}, ${lon}\n地圖：${mapLink}`;
