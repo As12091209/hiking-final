@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大小霸平安回報</title>
+    <style>
+        body { background-color: #121212; color: #ffffff; font-family: sans-serif; padding: 20px; text-align: center; }
+        .card { background: #1e1e1e; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #333; }
+        button { width: 100%; padding: 15px; margin: 5px 0; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-update { background-color: #2196F3; color: white; }
+        .btn-status { background-color: #333; color: #eee; border: 1px solid #555; }
+        textarea { width: 100%; height: 100px; background: #2d2d2d; color: #fff; border: 1px solid #555; border-radius: 8px; padding: 10px; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>⛰️ 大小霸回報器 (最終版)</h1>
+    <div class="card">
+        <button class="btn-update" onclick="getGPS()">📍 1. 更新位置</button>
+        <div id="gpsDisplay" style="margin-top:10px; color:#aaa;">等待定位...</div>
+    </div>
+    <div class="card">
+        <p>2. 選擇狀態：</p>
+        <button class="btn-status" onclick="genMsg('✅ 抵達 / 平安')">✅ 抵達 / 平安</button>
+        <button class="btn-status" onclick="genMsg('🚀 出發 / 續行')">🚀 出發 / 續行</button>
+        <button class="btn-status" onclick="genMsg('🛑 撤退 / 紮營')">🛑 撤退 / 紮營</button>
+    </div>
+    <div class="card">
+        <textarea id="msgArea" onclick="this.select()"></textarea>
+    </div>
+
+    <script>
+        let lat = "", lon = "";
+        
+        function getGPS() {
+            document.getElementById('gpsDisplay').innerText = "定位中...";
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    lat = pos.coords.latitude.toFixed(5);
+                    lon = pos.coords.longitude.toFixed(5);
+                    document.getElementById('gpsDisplay').innerText = `緯度:${lat} / 經度:${lon}`;
+                }, err => {
+                    document.getElementById('gpsDisplay').innerText = "定位失敗: " + err.message;
+                }, { enableHighAccuracy: true });
+            } else {
+                alert("不支援 GPS");
+            }
+        }
+
+        function genMsg(status) {
+            if (!lat) { alert("請先更新位置！"); return; }
+            let time = new Date().toLocaleString('zh-TW', {hour12:false, month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
+            
+            // --- 這裡修正了：把 9 改成了 $，並使用官方網址 ---
+            let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
+            
+            let msg = `【${status}】\n時間：${time}\n位置：${lat}, ${lon}\n地圖：${mapLink}`;
+            
+            let area = document.getElementById('msgArea');
+            area.value = msg;
+            area.select();
+            document.execCommand("copy");
+            alert("已複製！");
+        }
+    </script>
+</body>
+</html>
